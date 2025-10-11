@@ -1,0 +1,24 @@
+
+.youtube-clone-button {
+  border: none;
+  background-color: aquamarine;
+  padding: 30px;
+  font-size: 20px;
+  border-radius: 20px;
+  font-family: BBH Sans Bartle;
+  /* font-family: Bitcount Prop Double Ink; */
+  font-style: italic;
+  color: black;
+  box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.5);
+  transition: margin 0.1s;
+  transition: box-shadow 0.1s;
+  outline: none;
+}
+.youtube-clone-button:hover{
+    cursor: pointer;
+}
+.youtube-clone-button:active{
+    box-shadow: none;
+    margin: 5px 0 0 0;
+    
+}
