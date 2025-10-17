@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epics Of Lord</title>
+    <style>
+        html, body{
+            background-color: black;
+            height: 100%;
+            margin: 0;
+        }
+        canvas{
+            display: block;
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            top: 0;
+            left: 0;
+            position: relative;
+        }
+        .msg{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            background-color: none;
+            color: white;
+            z-index: 1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 10px;
+            
+        }
+        p{
+            margin: 1px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="galaxy"></canvas>
+
+    <div class="msg">
+        <h1>Welcome!</h1>
+        <p>Our website is currently under construction.</p>
+        <p>Stay tuned for an amazing experience!</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('galaxy');
+        const ctx = canvas.getContext('2d');
+
+        function fitCanvas(){
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize',fitCanvas)
+        fitCanvas();
+
+        // ctx.fillStyle = 'white';
+        // ctx.fillRect(10, 10, 4, 4);
+        // console.log('Canvas Ready')
+
+        //Randomness in position
+        // const starX  = Math.random()*canvas.width;
+        // const starY  = Math.random()*canvas.height;
+
+        
+        const stars = [];
+        
+        for(let i =0 ; i<200; i++){
+            const star={
+                x: Math.random()*canvas.width,
+                y: Math.random()*canvas.height,
+                size: Math.random()*2 +1
+            };
+            stars.push(star)
+        }
+
+        let mouse ={ x:0,y:0}
+
+        window.addEventListener('mousemove',(e) =>{
+
+            mouse.x =(e.clientX/canvas.width -0.5)*2;//moving stars relative to mouse independent of screeen resolution
+            mouse.y =(e.clientY/canvas.height -0.5)*2
+
+        });
+
+        function animate(){
+
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            
+            for(const star of stars){
+                star.y+=1;//falling of stars speed
+
+                //speed relative to mouse
+                star.x += mouse.x*2;
+                star.y += mouse.y*2;
+
+                //This makes it such that once it reaches bottom a random spot 
+                // is assigned from top again so as to give the infinite star thing
+                if(star.y > canvas.height){
+                    star.y=0;
+                    star.x = Math.random()* canvas.width;
+                }
+                if(star.y < 0){
+                    star.y= canvas.height;
+                    star.x = Math.random()* canvas.width;
+                }
+
+                if(star.x > canvas.width) star.x= 0;
+                if(star.x <0) star.x= canvas.width;
+
+                ctx.fillStyle = 'white';
+                ctx.fillRect(star.x, star.y, star.size, star.size)
+            }
+            
+            //60fps repetition - animate function already in this coz
+            // its like saying once this animate function is over
+            // call it again
+            // then the animate function runs again after by another 60 ms or 60fps
+            requestAnimationFrame(animate)
+        }
+        animate();
+
+    </script>
+
+</body>
+</html>
